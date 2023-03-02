@@ -1,6 +1,6 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
-import { Toolbar } from "@mui/material";
+import { Button, Toolbar } from "@mui/material";
 import { Typography, IconButton } from "@mui/material";
 import { Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCartSharp";
@@ -22,11 +22,12 @@ export default function Header() {
         </Typography>
         <Box sx={{ display: { md: "flex" } }}>
           <IconButton size="large" aria-label="shows cart items count" color="inherit">
-            <Badge badgeContent={2} color="error">
+            <Badge badgeContent={1} color="error">
               <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
           </IconButton>
         </Box>
+        <Button color="inherit" >Login</Button>
       </Toolbar>
     </AppBar>
   );
