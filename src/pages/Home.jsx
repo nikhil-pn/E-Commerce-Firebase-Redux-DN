@@ -26,6 +26,7 @@ export default function Home() {
   async function fetchAllProducts() {
     const response = await fetch("https://fakestoreapi.com/products");
     const result = await response.json();
+    console.log("result", result);
     setproducts(result);
   }
   return (
@@ -78,11 +79,13 @@ export default function Home() {
                 <Typography fontSize="large" paragraph>
                   {price}
                 </Typography>
-                <Rating readOnly precision={0.5} value={rating.rate}></Rating>
+                {/* <Rating readOnly precision={0.5}  value={rating.rate}></Rating>  */}
               </CardContent>
-              <CardActions sx={{
-                alignSelf: 'center',
-              }}>
+              <CardActions
+                sx={{
+                  alignSelf: "center",
+                }}
+              >
                 <Button variant="contained">
                   <ShoppingCart></ShoppingCart>
                   Add To Cart
