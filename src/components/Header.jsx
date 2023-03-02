@@ -2,7 +2,9 @@ import React from "react";
 import AppBar from "@mui/material/AppBar";
 import { Toolbar } from "@mui/material";
 import { Typography, IconButton } from "@mui/material";
-import {Badge} from "@mui/icons-material"
+import { Badge } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCartSharp";
+import { Box } from "@mui/material";
 
 export default function Header() {
   return (
@@ -13,15 +15,18 @@ export default function Header() {
           color="inherit"
           sx={{
             flexGrow: 1,
-            color: "whitesmoke"
+            color: "whitesmoke",
           }}
         >
           H3lios Design
         </Typography>
-        <IconButton>
-            <Badge badgeContent={1}></Badge>
-        </IconButton>
-       
+        <Box sx={{ display: { md: "flex" } }}>
+          <IconButton size="large" aria-label="shows cart items count" color="inherit">
+            <Badge badgeContent={2} color="error">
+              <ShoppingCartIcon></ShoppingCartIcon>
+            </Badge>
+          </IconButton>
+        </Box>
       </Toolbar>
     </AppBar>
   );
