@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 
 export default function Header() {
   return (
-    <AppBar>
+    <AppBar position="sticky">
       <Toolbar>
         <Typography
           variant="h6"

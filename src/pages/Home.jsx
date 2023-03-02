@@ -1,3 +1,5 @@
+import { useTheme } from "@emotion/react";
+import { ShoppingCart } from "@mui/icons-material";
 import {
   Card,
   CardContent,
@@ -5,13 +7,16 @@ import {
   Container,
   Grid,
   Typography,
-  Rating
+  Rating,
+  CardActions,
+  Button,
 } from "@mui/material";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
 export default function Home() {
+  const theme = useTheme();
   const [products, setproducts] = useState(["prodcut"]);
 
   useEffect(() => {
@@ -33,17 +38,56 @@ export default function Home() {
             >
               <CardMedia
                 component="img"
-                sx={{}}
+                sx={{
+                  alignSelf: "center",
+                  width: theme.spacing(30),
+                  height: theme.spacing(30),
+                  objectFit: "contain",
+                  pt: theme.spacing(),
+                }}
                 image={image}
                 alt={title}
               ></CardMedia>
               <CardContent>
-                <Typography variant="h5" component="h2">
+                <Typography
+                  variant="h5"
+                  component="h2"
+                  gutterBottom
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "2",
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
                   {title}
                 </Typography>
-                <Typography>{description}</Typography>
-                <Rating readOnly precision={0.5} ></Rating>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "2",
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {description}
+                </Typography>
+                <Typography fontSize="large" paragraph>
+                  {price}
+                </Typography>
+                <Rating readOnly precision={0.5} value={rating.rate}></Rating>
               </CardContent>
+              <CardActions sx={{
+                alignSelf: 'center',
+              }}>
+                <Button variant="contained">
+                  <ShoppingCart></ShoppingCart>
+                  Add To Cart
+                </Button>
+              </CardActions>
             </Card>
           </Grid>
         ))}
