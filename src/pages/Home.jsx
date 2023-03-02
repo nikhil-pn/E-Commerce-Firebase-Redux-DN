@@ -14,10 +14,13 @@ import {
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../feature/cart-slice";
 
 export default function Home() {
   const theme = useTheme();
   const [products, setproducts] = useState(["prodcut"]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchAllProducts();
@@ -29,6 +32,11 @@ export default function Home() {
     console.log("result", result);
     setproducts(result);
   }
+
+  function addProductToCart(product) {
+    dispatch(addToCart({ product, quantity: 1 }));
+  }
+
   return (
     <Container sx={{ py: 8 }} maxWidth="8">
       <Grid container spacing={4}>
@@ -86,7 +94,19 @@ export default function Home() {
                   alignSelf: "center",
                 }}
               >
-                <Button variant="contained">
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    addProductToCart({
+                      title,
+                      id,
+                      price,
+                      description,
+                      rating,
+                      image,
+                    })
+                  }
+                >
                   <ShoppingCart></ShoppingCart>
                   Add To Cart
                 </Button>
