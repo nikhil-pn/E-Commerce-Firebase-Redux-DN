@@ -8,6 +8,12 @@ import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getItemCount } from "../utilis";
 import { styled, alpha } from "@mui/material/styles";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
+import { useTheme } from "@emotion/react";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -23,7 +29,50 @@ const Search = styled("section")(({ theme }) => ({
 }));
 
 function SearchBar() {
-  return <Search></Search>
+  const theme = useTheme();
+  const products = useSelector((state) => state.products.value);
+  return (
+    <Search>
+      <Select
+        size="small"
+        sx={{
+          m: 1,
+          textTransform: "capitalize",
+          "&": {
+            "::before": {
+              ":hover": {
+                border: "none",
+              },
+            },
+            "::before, &::after": {
+              border: "none",
+            },
+            ".MuiSelect-standard": {
+              color: "common.white",
+            },
+            ".MuiSelect-icon": {
+              fill: theme.palette.common.white,
+            },
+          },
+        }}
+        variant="standard"
+        labelId="selected-category"
+        id="selected-category-id"
+      >
+        <MenuItem value="all">All</MenuItem>
+      </Select>
+      <Autocomplete
+        disablePortal
+        id="combo-box-demo"
+        options={Array.from(products, (prod) => ({
+          id: prod.id,
+          label: prod.title,
+        }))}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </Search>
+  );
 }
 
 export default function Header() {
