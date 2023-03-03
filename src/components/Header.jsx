@@ -5,15 +5,16 @@ import { Typography, IconButton } from "@mui/material";
 import { Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCartSharp";
 import { Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getItemCount } from "../utilis";
 import { styled, alpha } from "@mui/material/styles";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-
+import { useState } from "react";
 import { useTheme } from "@emotion/react";
+import { fetchAllCategories } from "../feature/categories-slice";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -30,10 +31,24 @@ const Search = styled("section")(({ theme }) => ({
 
 function SearchBar() {
   const theme = useTheme();
-  const products = useSelector((state) => state.products.value);
+  const products = useSelector((state) => state.products?.value);
+  const categories = useSelector((state) => state.categories?.value);
+  const dispatch = useDispatch();
+
+  const [selectedCategory, setselectedCategory] = useState("All");
+
+  console.log(categories, "cat");
+  if (!categories.length) {
+    dispatch(fetchAllCategories());
+  }
+  function handleCategoryChange(event){
+    const {value} = event.target
+    setselectedCategory(value)
+  }
   return (
     <Search>
       <Select
+        value={selectedCategory}
         size="small"
         sx={{
           m: 1,
@@ -58,8 +73,20 @@ function SearchBar() {
         variant="standard"
         labelId="selected-category"
         id="selected-category-id"
+        onChange={handleCategoryChange}
       >
         <MenuItem value="all">All</MenuItem>
+        {categories?.map((category) => (
+          <MenuItem
+            sx={{
+              textTransform: "capitalize",
+            }}
+            key={category}
+            value={category}
+          >
+            {category}
+          </MenuItem>
+        ))}
       </Select>
       <Autocomplete
         disablePortal
