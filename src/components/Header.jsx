@@ -5,8 +5,12 @@ import { Typography, IconButton } from "@mui/material";
 import { Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCartSharp";
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
+import { getItemCount } from "../utilis";
 
 export default function Header() {
+  const cartItems = useSelector(state => state.cart?.value)
+  const count = getItemCount(cartItems)
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -21,13 +25,17 @@ export default function Header() {
           H3lios Design
         </Typography>
         <Box sx={{ display: { md: "flex" } }}>
-          <IconButton size="large" aria-label="shows cart items count" color="inherit">
-            <Badge badgeContent={1} color="error">
+          <IconButton
+            size="large"
+            aria-label="shows cart items count"
+            color="inherit"
+          >
+            <Badge badgeContent={count} color="error">
               <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
           </IconButton>
         </Box>
-        <Button color="inherit" >Login</Button>
+        <Button color="inherit">Login</Button>
       </Toolbar>
     </AppBar>
   );
