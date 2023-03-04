@@ -39,7 +39,7 @@ function SearchBar() {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
-
+  const searchTerm = searchParams.get("searchterm");
   const [selectedCategory, setselectedCategory] = useState("");
 
   const navigate = useNavigate();
@@ -55,6 +55,24 @@ function SearchBar() {
     const { value } = event.target;
     navigate(value === "all" ? "/" : `/?category=${value}`);
   }
+
+  function handleSearchChange(searchText) {
+
+    if (searchText) {
+      navigate(
+        selectedCategory === "all"
+          ? `?searchterm=${searchText}`
+          : `/?category=${selectedCategory}&searchterm=${searchText}`
+      );
+    } else {
+      navigate(
+        selectedCategory === "all"
+          ? `/`
+          : `/?category=${selectedCategory}`
+      );
+    }
+  }
+
   return (
     <Search>
       <Select
@@ -99,6 +117,10 @@ function SearchBar() {
         ))}
       </Select>
       <Autocomplete
+        onChange={(e, value) => {
+          console.log(value);
+          handleSearchChange(value?.label)
+        }}
         disablePortal
         id="combo-box-demo"
         options={Array.from(
