@@ -40,7 +40,7 @@ function SearchBar() {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
 
-  const [selectedCategory, setselectedCategory] = useState("all");
+  const [selectedCategory, setselectedCategory] = useState("");
 
   const navigate = useNavigate();
 
@@ -101,10 +101,15 @@ function SearchBar() {
       <Autocomplete
         disablePortal
         id="combo-box-demo"
-        options={Array.from(products, (prod) => ({
-          id: prod.id,
-          label: prod.title,
-        }))}
+        options={Array.from(
+          selectedCategory === "all"
+            ? products
+            : products.filter((prod) => prod.category === selectedCategory),
+          (prod) => ({
+            id: prod.id,
+            label: prod.title,
+          })
+        )}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} />}
       />
