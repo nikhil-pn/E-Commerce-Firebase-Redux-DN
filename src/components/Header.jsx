@@ -15,6 +15,7 @@ import Select from "@mui/material/Select";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { fetchAllCategories } from "../feature/categories-slice";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -37,13 +38,16 @@ function SearchBar() {
 
   const [selectedCategory, setselectedCategory] = useState("All");
 
+  const navigate = useNavigate();
+
   console.log(categories, "cat");
   if (!categories.length) {
     dispatch(fetchAllCategories());
   }
-  function handleCategoryChange(event){
-    const {value} = event.target
-    setselectedCategory(value)
+  function handleCategoryChange(event) {
+    const { value } = event.target;
+    setselectedCategory(value);
+    navigate(selectedCategory === "All" ? "/" : `/?category=${value}`);
   }
   return (
     <Search>
