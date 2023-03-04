@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { fetchAllCategories } from "../feature/categories-slice";
 import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -61,6 +61,11 @@ const SearchIconWrapper = styled("section")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+}));
+
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.common.white,
+  textDecoration: "none",
 }));
 
 function SearchBar() {
@@ -174,9 +179,18 @@ function SearchBar() {
 export default function Header() {
   const cartItems = useSelector((state) => state.cart?.value);
   const count = getItemCount(cartItems);
+  const navigate = useNavigate();
+  function navigateToCart() {
+    navigate("/cart");
+  }
   return (
-    <AppBar position="sticky">
-      <Toolbar>
+    <AppBar
+  
+      sx={{
+        py: 1,
+      }}
+    >
+      <Toolbar sx={{ display: "flex", gap: 2 }}>
         <Typography
           variant="h6"
           color="inherit"
@@ -185,11 +199,12 @@ export default function Header() {
             color: "whitesmoke",
           }}
         >
-          H3lios Design
+          <StyledLink to="/">H3lios Design</StyledLink>
         </Typography>
         <SearchBar></SearchBar>
         <Box sx={{ display: { md: "flex" } }}>
           <IconButton
+            onClick={navigateToCart}
             size="large"
             aria-label="shows cart items count"
             color="inherit"

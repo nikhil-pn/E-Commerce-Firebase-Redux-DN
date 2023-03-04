@@ -41,7 +41,7 @@ export default function Home() {
     category && category !== "all"
       ? products.filter((prod) => prod.category === category)
       : products;
-// filter search term product only func implemented
+  // filter search term product only func implemented
   filteredProducts = searchTerm
     ? filteredProducts.filter((prod) =>
         prod.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -59,6 +59,7 @@ export default function Home() {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
+                  padding: theme.spacing(2, 0),
                 }}
               >
                 <CardMedia
