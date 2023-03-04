@@ -18,6 +18,7 @@ import { fetchAllCategories } from "../feature/categories-slice";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -30,6 +31,36 @@ const Search = styled("section")(({ theme }) => ({
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
+}));
+
+//styled autocomplete componet
+const StyleAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  color: "inherit",
+  width: "100%",
+  "& .MuiTextField-root": {
+    paddingRight: `calc(1em + ${theme.spacing(4)})`,
+  },
+  "& .MuiInputBase-input": {
+    color: theme.palette.common.white,
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "none",
+  },
+  "& .MuiSvgIcon-root": {
+    fill: theme.palette.common.white,
+  },
+}));
+
+//search button componet styled wrapper
+const SearchIconWrapper = styled("section")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  right: 0,
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 function SearchBar() {
@@ -57,7 +88,6 @@ function SearchBar() {
   }
 
   function handleSearchChange(searchText) {
-
     if (searchText) {
       navigate(
         selectedCategory === "all"
@@ -66,9 +96,7 @@ function SearchBar() {
       );
     } else {
       navigate(
-        selectedCategory === "all"
-          ? `/`
-          : `/?category=${selectedCategory}`
+        selectedCategory === "all" ? `/` : `/?category=${selectedCategory}`
       );
     }
   }
@@ -116,13 +144,14 @@ function SearchBar() {
           </MenuItem>
         ))}
       </Select>
-      <Autocomplete
+      <StyleAutocomplete
+        freeSolo
+        id="selected-product"
         onChange={(e, value) => {
           console.log(value);
-          handleSearchChange(value?.label)
+          handleSearchChange(value?.label);
         }}
         disablePortal
-        id="combo-box-demo"
         options={Array.from(
           selectedCategory === "all"
             ? products
@@ -132,9 +161,12 @@ function SearchBar() {
             label: prod.title,
           })
         )}
-        sx={{ width: 300 }}
+        // sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} />}
       />
+      <SearchIconWrapper>
+        <SearchIcon />
+      </SearchIconWrapper>
     </Search>
   );
 }
