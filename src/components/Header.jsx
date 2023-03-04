@@ -16,6 +16,8 @@ import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { fetchAllCategories } from "../feature/categories-slice";
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -35,19 +37,23 @@ function SearchBar() {
   const products = useSelector((state) => state.products?.value);
   const categories = useSelector((state) => state.categories?.value);
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
 
-  const [selectedCategory, setselectedCategory] = useState("All");
+  const [selectedCategory, setselectedCategory] = useState("all");
 
   const navigate = useNavigate();
 
-  console.log(categories, "cat");
+  useEffect(() => {
+    setselectedCategory(category ? category : "all");
+  }, [category]);
+
   if (!categories.length) {
     dispatch(fetchAllCategories());
   }
   function handleCategoryChange(event) {
     const { value } = event.target;
-    setselectedCategory(value);
-    navigate(selectedCategory === "All" ? "/" : `/?category=${value}`);
+    navigate(value === "all" ? "/" : `/?category=${value}`);
   }
   return (
     <Search>
