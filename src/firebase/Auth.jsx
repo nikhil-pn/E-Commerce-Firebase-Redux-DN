@@ -41,6 +41,9 @@ const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };
 
+export const useAuth = () => useContext(AuthContext);
+
+
 function useProvideAuth() {
   const [user, setUser] = useState();
   const signUp = (email, password, displayName) =>
