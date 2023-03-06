@@ -20,6 +20,7 @@ import { useSearchParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "../firebase/Auth";
+import { Menu } from "@mui/material";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -186,46 +187,84 @@ export default function Header() {
   function navigateToCart() {
     navigate("/cart");
   }
-  return (
-    <AppBar
-      sx={{
-        py: 1,
-      }}
-    >
-      <Toolbar sx={{ display: "flex", gap: 2 }}>
-        <Typography
-          variant="h6"
-          color="inherit"
-          sx={{
-            flexGrow: 1,
-            color: "whitesmoke",
-          }}
-        >
-          <StyledLink to="/">H3lios Design</StyledLink>
-        </Typography>
-        <SearchBar></SearchBar>
-        <Box sx={{ display: { md: "flex" } }}>
-          <IconButton
-            onClick={navigateToCart}
-            size="large"
-            aria-label="shows cart items count"
-            color="inherit"
-          >
-            <Badge badgeContent={count} color="error">
-              <ShoppingCartIcon></ShoppingCartIcon>
-            </Badge>
-          </IconButton>
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
 
-          {user ? (
-            <Button  color="inherit">
-              Hello, {user.displayName ?? user.email}
-            </Button>
-          ) : (
-            <Button color="inherit">Login</Button>
-          )}
-        </Box>
-        
-      </Toolbar>
-    </AppBar>
+  function handleProfileMenuOpen(e) {
+    setAnchorEl(e.currentTarget);
+  }
+  function handleMenuClose() {
+    setAnchorEl(null);
+  }
+  async function logout() {
+    await signOut();
+    navigate("/login");
+  }
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      id="user-profile-menu"
+      keepMounted
+      transformOrigin={{
+        horizontal: "right",
+        vertical: "top",
+      }}
+      anchorOrigin={{
+        horizontal: "right",
+        vertical: "bottom",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
+    </Menu>
+  );
+
+  return (
+    <>
+      <AppBar
+        sx={{
+          py: 1,
+        }}
+      >
+        <Toolbar sx={{ display: "flex", gap: 2 }}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            sx={{
+              flexGrow: 1,
+              color: "whitesmoke",
+            }}
+          >
+            <StyledLink to="/">H3lios Design</StyledLink>
+          </Typography>
+          <SearchBar></SearchBar>
+          <Box sx={{ display: { md: "flex" } }}>
+            <IconButton
+              onClick={navigateToCart}
+              size="large"
+              aria-label="shows cart items count"
+              color="inherit"
+            >
+              <Badge badgeContent={count} color="error">
+                <ShoppingCartIcon></ShoppingCartIcon>
+              </Badge>
+            </IconButton>
+
+            {user ? (
+              <Button onClick={handleProfileMenuOpen} color="inherit">
+                Hello, {user.displayName ?? user.email}
+              </Button>
+            ) : (
+              <Button color="inherit">Login</Button>
+            )}
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMenu}
+    </>
   );
 }
