@@ -12,23 +12,28 @@ import Login from "./pages/Login";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import Checkout from "./pages/Checkout";
+import AuthProvider from "./firebase/Auth";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout></Layout>}>
-      <Route index element={<Home></Home>}></Route>
-      <Route path="/cart" element={<Cart></Cart>}></Route>
-      <Route path="/checkout" element={<Checkout></Checkout>}></Route>
+    <>
+      <Route path="/" element={<Layout></Layout>}>
+        <Route index element={<Home></Home>}></Route>
+        <Route path="/cart" element={<Cart></Cart>}></Route>
+        <Route path="/checkout" element={<Checkout></Checkout>}></Route>
+      </Route>
       <Route path="/login" element={<Login></Login>}></Route>
-    </Route>
+    </>
   )
 );
 
 function App() {
   return (
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </AuthProvider>
   );
 }
 
