@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { useAuth } from "../firebase/Auth";
 
 const Search = styled("section")(({ theme }) => ({
   position: "relative",
@@ -177,6 +178,8 @@ function SearchBar() {
 }
 
 export default function Header() {
+  const { user, signOut } = useAuth();
+
   const cartItems = useSelector((state) => state.cart?.value);
   const count = getItemCount(cartItems);
   const navigate = useNavigate();
@@ -185,7 +188,6 @@ export default function Header() {
   }
   return (
     <AppBar
-  
       sx={{
         py: 1,
       }}
@@ -213,8 +215,16 @@ export default function Header() {
               <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
           </IconButton>
+
+          {user ? (
+            <Button  color="inherit">
+              Hello, {user.displayName ?? user.email}
+            </Button>
+          ) : (
+            <Button color="inherit">Login</Button>
+          )}
         </Box>
-        <Button color="inherit">Login</Button>
+        
       </Toolbar>
     </AppBar>
   );
