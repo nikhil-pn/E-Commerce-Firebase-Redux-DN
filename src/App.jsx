@@ -14,6 +14,7 @@ import { store } from "./store";
 import Checkout from "./pages/Checkout";
 import AuthProvider, { useAuth } from "./firebase/Auth";
 import { Navigate } from "react-router-dom";
+import Register from "./pages/Register";
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
         ></Route>
       </Route>
       <Route path="/login" element={<Login></Login>}></Route>
+      <Route path="/register" element={<Register></Register>} ></Route>
     </>
   )
 );
