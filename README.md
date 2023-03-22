@@ -1,5 +1,7 @@
 # E-Commerce-Firebase-Redux-DN
 
+[Live Demo](https://e-commerce-nikhilpn.netlify.app/)
+
 ## Screen Shots of the Ecommerce
 ![Alt text](src/assets/Screenshot%20(527).png)
 ## Sign In Page
